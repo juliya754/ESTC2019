@@ -1,10 +1,5 @@
 #include <stm32f4xx.h>
 #include <time.h>
-/*
- * @brief Simple lab -- blink leds in R->B->G order, on button press
- *        LEDS blink white once for a short period of time and then
- *        blink in a reverse order G->B->R.
- */
 
 #define SWITCH_DELAY    ((uint32_t)2000000)
 
@@ -53,7 +48,7 @@ int main(void)
     int state = GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_0);
     if (!state)
     {
-      setupClock(4);
+      setupClock(8);
       blink_led(GPIOA, GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10, BLINK_MUL_FAST);
     }
 
@@ -112,7 +107,10 @@ static void setupClock(int PLL_N)
   while (RCC_GetFlagStatus(RCC_FLAG_PLLRDY) != RESET);
   
   /* Configure PLL */
-  RCC_PLLConfig(RCC_PLLSource_HSE, 8, 336, PLL_N, 7);
+  RCC_PLLConfig(RCC_PLLSource_HSE, 8, 336, PLL_N, 7); // 8 / 8 = 1
+						      // 336 * 2 = 672
+						      // 672 / PLL_N = 672 / 8 = 84 - system clock frequency
+						      // 672 / 7 = 96
   RCC_PLLCmd(ENABLE);
   while (RCC_GetFlagStatus(RCC_FLAG_PLLRDY) != SET);
   
