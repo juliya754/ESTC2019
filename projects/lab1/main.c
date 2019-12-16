@@ -48,7 +48,7 @@ int main(void)
     int state = GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_0);
     if (!state)
     {
-      setupClock(8);
+      setupClock(4);
       blink_led(GPIOA, GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10, BLINK_MUL_FAST);
     }
 
@@ -108,9 +108,9 @@ static void setupClock(int PLL_N)
   
   /* Configure PLL */
   RCC_PLLConfig(RCC_PLLSource_HSE, 8, 336, PLL_N, 7); // 8 / 8 = 1
-						      // 336 * 2 = 672
-						      // 672 / PLL_N = 672 / 8 = 84 - system clock frequency
-						      // 672 / 7 = 96
+						      // 336 * 1 = 336
+						      // 336 / PLL_N = 336 / 4 = 84 - system clock frequency
+						      // 336 / 7 = 48 - frequency for USB, etc
   RCC_PLLCmd(ENABLE);
   while (RCC_GetFlagStatus(RCC_FLAG_PLLRDY) != SET);
   
