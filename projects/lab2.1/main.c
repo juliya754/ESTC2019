@@ -2,6 +2,8 @@
 
 #define SWITCH_DELAY    ((uint32_t)2000000)
 
+
+
 static
 int configure_leds(void)
 {
@@ -53,15 +55,6 @@ int configure_timers(void)
    return 0;
 }
 
-
-void blink_led(GPIO_TypeDef * port, uint16_t pins, uint16_t multiplier)
-{
-  uint32_t k = 0;
-
-  GPIO_ResetBits(port, pins);
-  for (k = 0; k < SWITCH_DELAY * multiplier; ++k);
-  GPIO_SetBits(port, pins);
-}
 
 int main(void)
 {
